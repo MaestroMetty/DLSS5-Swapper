@@ -1369,7 +1369,7 @@
       if (!chip || !state.active) return;
       // Pressing the chip that is already on takes the filter off again.
       state.route = state.route === chip.dataset.route ? null : chip.dataset.route;
-      state.thread = null;
+      state.thread = null;      
       paintCard(state.active);
     };
     $('communityFollow').onclick = toggleFollow;
@@ -1380,6 +1380,10 @@
       if (!message) return;
       event.preventDefault();
       openMessageMenu(event, message);
+    });
+    // Backdrop click: close the card dialog modal when clicking outside the dialog box.
+    $('communityCardDialog').addEventListener('click', event => {
+      if (event.target === event.currentTarget) closeCard();
     });
     $('communityCardBody').onclick = async event => {
       // Your own words first: edit, delete, and the two buttons an open editor
@@ -1453,7 +1457,7 @@
   // Who this install is, and what it follows. Asked for once at start rather
   // than on every card, and quietly - being offline is not an error here.
   loadMe().catch(() => {});
-  window.communityUi = {
+  window.communityUi = {    
     render, renderProfile, openReport, openCard, applyLanguage, stopPolling, syncOwnReports,
     // The games view asks these: whether this install already reported a game,
     // and how to take that report back from outside the community page.
